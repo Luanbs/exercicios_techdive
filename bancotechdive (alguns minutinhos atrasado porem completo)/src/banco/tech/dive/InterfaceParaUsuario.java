@@ -38,6 +38,7 @@ public class InterfaceParaUsuario {
                 6-Deposito
                 7-Alterar Cadastro
                 8-Simulação de rendimento (conta poupança)
+                9-Simulação ou aplicação de investimento (Conta investimento)
                 123 - relatorios do banco
                 404-Fechar a aplicação""");
             System.out.println("---------------------------------------------------------------");
@@ -93,7 +94,16 @@ public class InterfaceParaUsuario {
                 switch (escolhaDeConta) {
                     case 1 -> Conta.conta.add(new ContaCorrente(nome, cpf, rendaMensal, agencia, contaId));
                     case 2 -> Conta.conta.add(new ContaPoupanca(nome, cpf, rendaMensal, agencia, contaId));
-                    case 3 -> Conta.conta.add(new ContaInvestimento(nome, cpf, rendaMensal, agencia, contaId));
+                    case 3 -> {
+                        System.out.println("""
+                                Escolha o tipo de investimento
+                                1 - Tesouro direto 10,34% de rendimento anual
+                                2 - Fundos Multimercado 7,45% de rendimento anual
+                                3 - Fundos Imobiliario 11,78% de rendimento anual """);
+                        scanner.nextLine();
+                        int tipoInvestimento = scanner.nextInt();
+                        Conta.conta.add(new ContaInvestimento(nome, cpf, rendaMensal, agencia, contaId, tipoInvestimento));
+                    }
                     default -> System.out.println("Escolha inválida. Tente novamente.");
 
                 }}while(escolhaDeConta>3 || escolhaDeConta<1);
@@ -127,16 +137,17 @@ public class InterfaceParaUsuario {
                     System.out.println("Digite o numero da sua conta");
                     numeroContaUsuario = scanner.nextInt();
 
-                    for (int i = 0; i < Transacoes.transacoes.size(); i++) {
 
-                        if (Transacoes.transacoes.get(i).contaId1==(numeroContaUsuario)) {
-                            Transacoes.transacoes.get(i).getExtrato();
-                        }
-                    }
                 } catch (Exception e) {
                     System.out.println("Conta inválida.");
                     System.out.println("---------------------------------------------------------------");
                     break;
+                }
+                for (int i = 0; i < Transacoes.transacoes.size(); i++) {
+
+                    if (Transacoes.transacoes.get(i).contaId1==(numeroContaUsuario)) {
+                        Transacoes.transacoes.get(i).getExtrato();
+                    }
                 }
                 break;
 
@@ -177,7 +188,6 @@ public class InterfaceParaUsuario {
                                     Conta.conta.get(numeroContaDestino).getCpf(),
                                     quantidadeTransferencia,
                                     "Transferência"));
-                    System.out.println("Transferencia feita com sucesso.");
                     System.out.println("---------------------------------------------------------------");
                     break;
 
@@ -338,6 +348,64 @@ public class InterfaceParaUsuario {
 
 
                 break;
+
+            case 9:
+                try {
+                    scanner.nextLine();
+                    System.out.println("Digite o numero da sua conta");
+                    numeroContaUsuario = scanner.nextInt();
+                    numeroContaUsuario-=1;
+
+                    if (!(Conta.conta.get(numeroContaUsuario) instanceof ContaInvestimento)) {
+                        System.out.println("Sua conta não possui esse benefício, apenas contas investimento.");
+                        break;
+                    }
+
+                    if (Conta.conta.get(numeroContaUsuario).getContaId()>contaId ||
+                            Conta.conta.get(numeroContaUsuario).getContaId()<0){
+                        break;
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Conta inválida.");
+                    System.out.println("---------------------------------------------------------------");
+                    break;
+                }
+                System.out.println("""
+                Selecione a opção desejada abaixo:
+                1-Fazer Simulação de investimento
+                2-Investir""");
+
+                scanner.nextLine();
+                int escolhaInvestimento = scanner.nextInt();
+
+                switch (escolhaInvestimento) {
+
+                    case 1:
+                            System.out.println("informe um valor para realizar a simulação de investimento");
+                            scanner.nextLine();
+                            int valorRendimento = scanner.nextInt();
+                            ((ContaInvestimento) Conta.conta.get(numeroContaUsuario)).simulacaoInvestimento(valorRendimento);
+                        break;
+
+                    case 2:
+                            System.out.println("informe um valor para realizar a operação de investimento");
+                            scanner.nextLine();
+                            int valorInvestido = scanner.nextInt();
+                            ((ContaInvestimento) Conta.conta.get(numeroContaUsuario)).investir(valorInvestido);
+                            break;
+
+                    default:
+                        break;
+                }
+
+
+
+
+
+
+                break;
+
             case 123:
 
                 System.out.println("""
@@ -348,6 +416,7 @@ public class InterfaceParaUsuario {
                 4-listar todas as contas
                 5-listar contas com saldo negativo
                 6-todas as transações de um determinado cliente
+                7-total valor investido
                 """);
 
 
@@ -410,7 +479,7 @@ public class InterfaceParaUsuario {
                     case 6:
                         try {
                             scanner.nextLine();
-                            System.out.println("Digite o numero da sua conta");
+                            System.out.println("Digite o numero da conta do usuário");
                             numeroContaUsuario = scanner.nextInt();
 
                             for (int i = 0; i < Transacoes.transacoes.size(); i++) {
@@ -426,8 +495,25 @@ public class InterfaceParaUsuario {
                         }
                         break;
 
-//
-//
+                    case 7:
+                        try {
+                            scanner.nextLine();
+                            System.out.println("Digite o numero da conta do usuário");
+                            numeroContaUsuario = scanner.nextInt();
+                            numeroContaUsuario -=1;
+
+                        } catch (Exception e) {
+                            System.out.println("Conta inválida.");
+                            System.out.println("---------------------------------------------------------------");
+                            break;
+                        }
+                        System.out.printf("Numero da conta: %d\nUsuário:%s\nValor investido:%.2f%n",
+                        Conta.conta.get(numeroContaUsuario).getContaId(),
+                        Conta.conta.get(numeroContaUsuario).getNome(),
+                        ((ContaInvestimento) Conta.conta.get(numeroContaUsuario)).getValorInvestido());
+
+                        break;
+
 
             default:
                 System.out.println("escolha inválida");
