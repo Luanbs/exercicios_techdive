@@ -17,25 +17,40 @@ public abstract class Conta {
     public static ArrayList<Conta> conta = new <Conta>ArrayList();
 
 
+    //getters
 
+
+    public double getRendaMensal() {
+        return rendaMensal;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public int getContaId() {
+        return contaId;
+    }
+
+    public String getAgencia() {
+        return agencia;
+    }
 
     //setters
-    public void setNome(String nome) {
+    protected void setNome(String nome) {
         this.nome = nome;
     }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    public void setRendaMensal(double rendaMensal) {
+    protected void setCpf(String cpf) {this.cpf = cpf;}
+    protected void setRendaMensal(double rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
-    public void setConta(int conta) {
-        this.contaId = conta;
-    }
-    public void setAgencia(String agencia) {
-        this.agencia = agencia;
-    }
-
+    protected void setConta(int conta) {this.contaId = conta;}
+    protected void setAgencia(String agencia) {this.agencia = agencia;}
+    protected void setSaldo(double saldo) {this.saldo = saldo;}
 //Metodos gerais:
 
 
@@ -73,7 +88,7 @@ public abstract class Conta {
     public void transferir(double valorTransferencia, int contaDestino){
         if(valorTransferencia<=this.saldo && valorTransferencia>0){
             this.saldo -=valorTransferencia;
-            this.conta.get(contaDestino).saldo += valorTransferencia;
+            conta.get(contaDestino).saldo += valorTransferencia;
             System.out.printf("Transferencia de %.2f realizada com sucesso.%n", valorTransferencia);
         }else if(valorTransferencia>this.saldo){
             System.out.println("Valor indisponível para transferencia");

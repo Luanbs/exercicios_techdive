@@ -9,4 +9,11 @@ public class ContaPoupanca extends Conta{
         setAgencia(agencia);
         setConta(conta);
     }
+
+    public void getRendimento(int mesesRendimento){
+        System.out.printf("O rendimento em %d meses do seu saldo %.2f é:%n", mesesRendimento, this.getSaldo());
+        double rendimentoPoupanca = (Math.pow(1.05, mesesRendimento))*this.getSaldo();
+        System.out.printf("%.2f%n", rendimentoPoupanca);
+
+    }
 }
