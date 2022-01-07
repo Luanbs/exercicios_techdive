@@ -1,4 +1,4 @@
-package M01S7.Exercicio7;
+package M01S7.Exercicio7e8;
 
 public class Animal {
    private String nome;
@@ -25,7 +25,17 @@ public class Animal {
         System.out.println("Emitindo som");
     }
 
+    public void correr(){
+        System.out.println("Correndo");
+    }
+    public static void main(String[] args) {
+        Cachorro cachorro = new Cachorro();
+        Cavalo cavalo = new Cavalo();
+        Preguica preguica = new Preguica();
 
-
+        cachorro.emitirSom();
+        cavalo.emitirSom();
+        preguica.emitirSom();
+    }
 
 }
