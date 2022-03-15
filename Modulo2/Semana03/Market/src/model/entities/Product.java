@@ -8,13 +8,14 @@ public class Product {
 
     private String description;
 
-    private Category category;
+     private Category category;
 
-    public Product(long id, String name, String description, Category category) {
-        this.id = id;
+    public Product(String name, String description) {
         this.name = name;
         this.description = description;
-        this.category = category;
+    }
+
+    public Product() {
     }
 
     public long getId() {
